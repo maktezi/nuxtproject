@@ -1,4 +1,4 @@
-import vuetify from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
@@ -13,7 +13,21 @@ export default defineNuxtConfig({
 		},
 	},
 	vite: {
+		vue: {
+			template: {
+				transformAssetUrls,
+			},
+		},
 		plugins: [vuetify()],
 	},
-	modules: ['@nuxtjs/apollo', ['@pinia/nuxt', { autoImports: ['defineStore', 'acceptHMRUpdate'] }]],
+	modules: [
+		'@nuxtjs/apollo',
+		(_options, nuxt) => {
+			nuxt.hooks.hook('vite:extendConfig', (config) => {
+				// @ts-expect-error
+				config.plugins.push(vuetify({ autoImport: true }))
+			})
+		},
+		['@pinia/nuxt', { autoImports: ['defineStore', 'acceptHMRUpdate'] }],
+	],
 })
