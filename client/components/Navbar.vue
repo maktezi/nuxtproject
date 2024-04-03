@@ -1,12 +1,30 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 	<v-app-bar :elevation="2">
-		<template v-slot:prepend />
+		<template #prepend />
 		<v-app-bar-title>
 			<h2>
-				<v-icon icon="mdi-vuetify" />
-				FrontEnd Exam
+				<nuxt-link style="color: black" to="/">
+					<v-icon icon="mdi-vuetify" />
+				</nuxt-link>
+				SpaceX
 			</h2>
 		</v-app-bar-title>
-		<h5 style="padding-right: 20px;">Nuxt 3 / Vuetify / Graphql / Pinia</h5>
+		<div>
+			<v-btn class="nav-button" variant="outlined" to="/launches">Launches</v-btn>
+			<v-btn class="nav-button" variant="outlined" to="/rockets">Rockets</v-btn>
+		</div>
+		<h5 class="sub-title">Nuxt 3 / Vuetify / Graphql / Pinia</h5>
 	</v-app-bar>
 </template>
+
+<style>
+.nav-button {
+	margin-left: 10px;
+}
+
+.sub-title {
+	margin-right: 20px;
+	margin-left: 20px;
+}
+</style>

@@ -1,40 +1,39 @@
-import Navbar from '~/components/Navbar.vue'; import Footer from '~/components/Footer.vue';
 <template>
 	<v-container>
-		<Navbar />
-		<v-btn variant="tonal" to="/">Back</v-btn>
-		<h3 class="my-5">SpaceX Rockets</h3>
-		<v-table>
-			<thead>
-				<tr>
-					<!-- <th class="text-left">ID</th> -->
-					<th class="text-left">Rocket</th>
-					<th class="text-left">Description</th>
-					<th class="text-left">First flight date</th>
-					<th class="text-left">Height</th>
-					<th class="text-left">Diameter</th>
-					<th class="text-left">Mass</th>
-					<th class="text-left">No. of stages</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="launch in launches" :key="launch.rocket.rocket.name">
-					<!-- <td>{{ launch.id }}</td> -->
-					<td>{{ launch.rocket.rocket.name }}</td>
-					<td>{{ launch.rocket.rocket.description }}</td>
-					<td>{{ launch.rocket.rocket.first_flight }}</td>
-					<td>{{ launch.rocket.rocket.height.meters + ' meters' }}</td>
-					<td>{{ launch.rocket.rocket.diameter.meters + ' meters' }}</td>
-					<td>{{ launch.rocket.rocket.mass.kg + ' kg' }}</td>
-					<td>{{ launch.rocket.rocket.stages }}</td>
-				</tr>
-			</tbody>
-		</v-table>
+		<v-btn style="margin-bottom: 10px" variant="tonal" to="/">Back</v-btn>
+		<v-lazy :min-height="200" :options="{ threshold: 0.5 }" transition="fade-transition">
+			<v-card>
+				<h3 style="padding-left: 20px" class="my-5">SpaceX Rockets</h3>
+				<v-data-table density="compact">
+					<thead>
+						<tr>
+							<!-- <th class="text-left">ID</th> -->
+							<th class="text-left"><h4>Rocket</h4></th>
+							<th class="text-left"><h4>First flight date</h4></th>
+							<th class="text-left"><h4>Height</h4></th>
+							<th class="text-left"><h4>Diameter</h4></th>
+							<th class="text-left"><h4>Mass</h4></th>
+							<th class="text-left"><h4>No. of stages</h4></th>
+							<th class="text-left"><h4>Description</h4></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="launch in launches" :key="launch.rocket.rocket.name">
+							<td>{{ launch.rocket.rocket.name }}</td>
+							<td>{{ launch.rocket.rocket.first_flight }}</td>
+							<td>{{ launch.rocket.rocket.height.meters + ' meters' }}</td>
+							<td>{{ launch.rocket.rocket.diameter.meters + ' meters' }}</td>
+							<td>{{ launch.rocket.rocket.mass.kg + ' kg' }}</td>
+							<td>{{ launch.rocket.rocket.stages }}</td>
+							<td>{{ launch.rocket.rocket.description }}</td>
+						</tr>
+					</tbody>
+				</v-data-table>
+			</v-card>
+		</v-lazy>
 	</v-container>
 </template>
 <script lang="ts" setup>
-const store = useCounter()
-const selection = ref(0)
 const query = gql`
 	query Rocket {
 		launches {
