@@ -1,9 +1,6 @@
-<!-- eslint-disable prettier/prettier -->
-<!-- eslint-disable vue/html-self-closing -->
-<!-- eslint-disable vue/attributes-order -->
 <template>
 	<v-container>
-		<h2 style="text-align: center">SpaceX launches</h2>
+		<h2 style="text-align: center">SpaceX Launches</h2>
 		<v-lazy :min-height="200" :options="{ threshold: 0.5 }" transition="fade-transition">
 			<v-card>
 				<div
@@ -15,54 +12,68 @@
 						justify-content: space-between;
 					"
 				>
+					<v-btn style="margin-bottom: 10px" variant="tonal" to="/">Back</v-btn>
 					<div style="display: flex">
 						<div style="width: 250px">
 							<input
-								style="
-									width: 80%;
-									border-bottom: 1px solid darkgray;
-									background-color: #f8f8f8;
-									margin-left: 40px;
-									outline: none;
-									padding: 8px 20px;
-								"
-								placeholder="Filter by Year:"
-								type="number"
 								id="year"
 								v-model="selectedYear"
+								style="
+									width: 70%;
+									border-bottom: 1px solid darkgray;
+									background-color: #f8f8f8;
+									margin-left: 20px;
+									outline: none;
+									padding: 9.5px 15px;
+									font-size: small;
+								"
+								placeholder="Filter by Launch date:"
+								type="number"
 								@input="filterLaunches"
 							/>
 						</div>
-						<div style="width: 200px">
+						<div style="width: 160px; margin-left: -50px">
 							<v-select
+								id="sorting"
+								v-model="selectedSorting"
 								:items="['Ascending', 'Descending']"
 								density="compact"
 								label="Sort by Launch Date:"
-								v-model="selectedSorting"
-								id="sorting"
 								onchange="sortLaunches"
-							></v-select>
+							/>
 						</div>
 					</div>
-					<v-btn style="margin-bottom: 10px" variant="tonal" to="/">Back</v-btn>
 				</div>
 				<v-data-table density="compact" style="padding-left: 50px; padding-right: 50px">
 					<thead>
 						<tr>
-							<th class="text-left"><h4>Mission</h4></th>
-							<th class="text-left"><h4>Launch date</h4></th>
-							<th class="text-left"><h4>Launch site</h4></th>
-							<th class="text-left"><h4>Rocket</h4></th>
-							<th class="text-left"><h4>Details</h4></th>
+							<th class="text-left"><h3>Mission</h3></th>
+							<th class="text-left"><h3>Launch date</h3></th>
+							<th class="text-center hide-text"><h3>Launch site</h3></th>
+							<th class="text-center"><h3>Rocket</h3></th>
+							<th class="text-left hide-text"><h3>Details</h3></th>
+							<th class="text-center"><h3>Action</h3></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="launch in sortedLaunches" :key="launch.mission_name">
-							<td style="width: 10%">{{ launch.mission_name }}</td>
+							<td style="width: 10%">
+								<h4>{{ launch.mission_name }}</h4>
+							</td>
 							<td style="width: 10%">{{ launch.launch_date_utc }}</td>
-							<td style="width: 5%">{{ launch.launch_site ? launch.launch_site : 'N/A' }}</td>
-							<td style="width: 5%">{{ launch.rocket.rocket_name }}</td>
-							<td style="width: 70%">{{ launch.details ? launch.details : 'N/A' }}</td>
+							<td class="text-center hide-text" style="width: 10%">
+								{{ launch.launch_site ? launch.launch_site : 'N/A' }}
+							</td>
+							<td style="text-align: center; width: 10%">{{ launch.rocket.rocket_name }}</td>
+							<td class="hide-text" style="width: 60%; text-align: justify">
+								{{ launch.details ? launch.details : 'N/A' }}
+							</td>
+							<td
+								class="favorite text-center"
+								@click="favorite.addToFavorites(launch.mission_name)"
+							>
+								<v-icon icon="mdi-star-plus" class="icon" />
+							</td>
 						</tr>
 					</tbody>
 				</v-data-table>
@@ -94,16 +105,16 @@ const selectedYear = ref<number | null>(null)
 const selectedSorting = ref<string>('Ascending')
 const { data } = useAsyncQuery<{
 	launches: {
-		id: String
-		mission_name: String
-		launch_date_utc: Date
+		id: string
+		mission_name: string
+		launch_date_utc: string
 		launch_site: {
-			site_name: String
+			site_name: string
 		}
 		rocket: {
-			rocket_name: String
+			rocket_name: string
 		}
-		details: String
+		details: string
 	}[]
 }>(query)
 const launches = data.value?.launches ?? []
@@ -131,4 +142,26 @@ const sortLaunches = () => {
 
 const filteredLaunches = computed(() => filterLaunches())
 const sortedLaunches = computed(() => sortLaunches())
+const favorite = favoriteStore()
+
+useHead({
+	title: 'NuxtVGP - SpaceX Launches',
+	meta: [{ name: 'SpaceX', content: 'SpaceX Webpage.' }],
+	bodyAttrs: {
+		class: 'test',
+	},
+	script: [{ innerHTML: "console.log('FrontEnd Exam')" }],
+})
 </script>
+
+<style>
+.favorite {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+	.hide-text {
+		display: none;
+	}
+}
+</style>

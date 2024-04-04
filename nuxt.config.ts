@@ -30,4 +30,7 @@ export default defineNuxtConfig({
 		},
 		['@pinia/nuxt', { autoImports: ['defineStore', 'acceptHMRUpdate'] }],
 	],
+	router: {
+		middleware: 'pageNotFound',
+	},
 })
