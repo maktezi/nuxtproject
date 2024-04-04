@@ -9,8 +9,8 @@ dependencies:
     specifier: ^5.13.6
     version: 5.13.6
   '@pinia/nuxt':
-    specifier: ^0.5.1
-    version: 0.5.1(typescript@5.4.3)(vue@3.4.21)
+    specifier: 0.4.10
+    version: 0.4.10(typescript@5.4.3)(vue@3.4.21)
   '@vue/apollo-composable':
     specifier: ^4.0.2
     version: 4.0.2(@apollo/client@3.9.10)(graphql@16.8.1)(typescript@5.4.3)(vue@3.4.21)
@@ -1692,8 +1692,8 @@ packages:
       '@parcel/watcher-win32-x64': 2.3.0
     dev: true
 
-  /@pinia/nuxt@0.5.1(typescript@5.4.3)(vue@3.4.21):
-    resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
+  /@pinia/nuxt@0.4.10(typescript@5.4.3)(vue@3.4.21):
+    resolution: {integrity: sha512-/16Eac9B9BT+LnhGL2np3bO3DXYcIEjUIGmU9MzUu7y2exDYq1eOce4Yt+ZtLpb0hN0BBGNyP0ZWoHJ6KJIVfA==}
     dependencies:
       '@nuxt/kit': 3.8.2
       pinia: 2.1.7(typescript@5.4.3)(vue@3.4.21)
