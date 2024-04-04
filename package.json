@@ -40,8 +40,7 @@
 		"stylelint-config-standard-scss": "^11.1.0",
 		"stylelint-config-standard-vue": "^1.0.0",
 		"vite-plugin-vuetify": "^1.0.2",
-		"vuetify": "^3.4.3",
-		"tslib": "^2.6.2"
+		"vuetify": "^3.4.3"
 	},
 	"dependencies": {
 		"@nuxtjs/axios": "^5.13.6",
