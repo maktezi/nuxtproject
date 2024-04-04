@@ -3,9 +3,11 @@
 		<div class="container">
 			<div>
 				<h1 class="title">
+					<v-icon icon="mdi-vuetify" />
+					<br />
 					Welcome to
 					<br />
-					SpaceX
+					<h1>SpaceX</h1>
 				</h1>
 				<v-card class="text-wrapper">
 					<p class="text">
@@ -63,7 +65,7 @@ useHead({
 
 @media screen and (width <= 800px) {
 	.title {
-		margin-top: 100px;
+		margin-top: 30px;
 		font-size: 2rem;
 	}
 

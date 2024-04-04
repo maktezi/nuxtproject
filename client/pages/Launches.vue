@@ -1,13 +1,12 @@
 <template>
 	<v-container>
-		<h2 style="text-align: center">SpaceX Launches</h2>
 		<v-lazy :min-height="200" :options="{ threshold: 0.5 }" transition="fade-transition">
 			<v-card>
+				<h2 style="text-align: center; padding-top: 20px">SpaceX Launches</h2>
 				<div
 					style="
 						padding-left: 20px;
 						padding-right: 20px;
-						padding-top: 20px;
 						display: flex;
 						justify-content: space-between;
 					"
@@ -44,28 +43,28 @@
 						</div>
 					</div>
 				</div>
-				<v-data-table density="compact" style="padding-left: 50px; padding-right: 50px">
+				<v-table height="620px" style="padding-left: 50px; padding-right: 50px">
 					<thead>
 						<tr>
 							<th class="text-left"><h3>Mission</h3></th>
-							<th class="text-left"><h3>Launch date</h3></th>
-							<th class="text-center hide-text"><h3>Launch site</h3></th>
-							<th class="text-center"><h3>Rocket</h3></th>
-							<th class="text-left hide-text"><h3>Details</h3></th>
+							<th class="text-left"><h3>Date</h3></th>
+							<th class="text-center hide-text"><h3>Site</h3></th>
+							<th class="text-left"><h3>Rocket</h3></th>
+							<th class="text-center hide-text"><h3>Details</h3></th>
 							<th class="text-center"><h3>Action</h3></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="launch in sortedLaunches" :key="launch.mission_name">
-							<td style="width: 10%">
+						<tr v-for="launch in paginatedLaunches" :key="launch.mission_name">
+							<td style="width: 200px">
 								<h4>{{ launch.mission_name }}</h4>
 							</td>
-							<td style="width: 10%">{{ launch.launch_date_utc }}</td>
-							<td class="text-center hide-text" style="width: 10%">
+							<td class="header">{{ launch.launch_date_utc }}</td>
+							<td class="text-center hide-text header">
 								{{ launch.launch_site ? launch.launch_site : 'N/A' }}
 							</td>
-							<td style="text-align: center; width: 10%">{{ launch.rocket.rocket_name }}</td>
-							<td class="hide-text" style="width: 60%; text-align: justify">
+							<td class="header">{{ launch.rocket.rocket_name }}</td>
+							<td class="hide-text description">
 								{{ launch.details ? launch.details : 'N/A' }}
 							</td>
 							<td
@@ -76,7 +75,8 @@
 							</td>
 						</tr>
 					</tbody>
-				</v-data-table>
+				</v-table>
+				<v-pagination v-model="currentPage" :length="totalPages" :total-visible="5" />
 			</v-card>
 		</v-lazy>
 	</v-container>
@@ -84,6 +84,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+
 const query = gql`
 	query Launches {
 		launches {
@@ -100,9 +101,6 @@ const query = gql`
 		}
 	}
 `
-
-const selectedYear = ref<number | null>(null)
-const selectedSorting = ref<string>('Ascending')
 const { data } = useAsyncQuery<{
 	launches: {
 		id: string
@@ -118,6 +116,12 @@ const { data } = useAsyncQuery<{
 	}[]
 }>(query)
 const launches = data.value?.launches ?? []
+
+const selectedYear = ref<number | null>(null)
+const selectedSorting = ref<string>('Ascending')
+const currentPage = ref(1)
+const itemsPerPage = ref(10)
+const totalPages = computed(() => Math.ceil(sortedLaunches.value.length / itemsPerPage.value))
 
 const filterLaunches = () => {
 	if (selectedYear.value === null || selectedYear.value === '') {
@@ -140,6 +144,12 @@ const sortLaunches = () => {
 	return sortedLaunches
 }
 
+const paginatedLaunches = computed(() => {
+	const start = (currentPage.value - 1) * itemsPerPage.value
+	const end = start + itemsPerPage.value
+	return sortedLaunches.value.slice(start, end)
+})
+
 const filteredLaunches = computed(() => filterLaunches())
 const sortedLaunches = computed(() => sortLaunches())
 const favorite = favoriteStore()
@@ -157,6 +167,22 @@ useHead({
 <style>
 .favorite {
 	cursor: pointer;
+}
+
+.header {
+	width: 120px;
+}
+
+.description {
+	min-width: 200px;
+	max-width: 900px;
+	/* white-space: wrap;
+	overflow: hidden;
+	text-overflow: "..."; */
+}
+
+.hide-text {
+	text-align: justify;
 }
 
 @media screen and (max-width: 800px) {

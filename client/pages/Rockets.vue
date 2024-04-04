@@ -1,10 +1,10 @@
 <template>
 	<v-container>
-		<h2 style="text-align: center">SpaceX Rockets</h2>
 		<v-lazy :min-height="200" :options="{ threshold: 0.5 }" transition="fade-transition">
 			<v-card>
+				<h2 style="text-align: center; padding-top: 20px">SpaceX Rockets</h2>
 				<v-btn style="margin: 20px" variant="tonal" to="/">Back</v-btn>
-				<v-data-table density="compact" style="padding-left: 50px; padding-right: 50px">
+				<v-table style="padding-left: 50px; padding-right: 50px">
 					<thead>
 						<tr>
 							<th class="text-left"><h3>Rocket</h3></th>
@@ -29,7 +29,8 @@
 							<td class="hide-text">{{ rocket.description }}</td>
 						</tr>
 					</tbody>
-				</v-data-table>
+					<br />
+				</v-table>
 			</v-card>
 		</v-lazy>
 	</v-container>
