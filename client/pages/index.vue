@@ -2,7 +2,11 @@
 	<v-container>
 		<div class="container">
 			<div>
-				<h1 class="title">Welcome to SpaceX</h1>
+				<h1 class="title">
+					Welcome to
+					<br />
+					SpaceX
+				</h1>
 				<v-card class="text-wrapper">
 					<p class="text">
 						Welcome to SpaceX, your gateway to the stars. Explore our impressive catalog of
@@ -57,10 +61,12 @@ useHead({
 	font-style: italic;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
 	.title {
 		margin-top: 100px;
+		font-size: 2rem;
 	}
+
 	.text-wrapper {
 		margin: auto;
 		width: 70%;
