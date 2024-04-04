@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"baseUrl": "./",
 		"paths": {
-			"tslib": ["/node_modules/tslib/tslib.js"]
+			"tslib": ["./node_modules/tslib/tslib.js"]
 		}
 	},
 	"extends": "./.nuxt/tsconfig.json"
