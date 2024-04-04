@@ -17,9 +17,6 @@ dependencies:
   sass:
     specifier: ^1.68.0
     version: 1.69.5
-  tslib:
-    specifier: ^2.6.2
-    version: 2.6.2
 
 devDependencies:
   '@mdi/font':
