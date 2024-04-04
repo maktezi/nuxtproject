@@ -35,7 +35,7 @@
 	</v-container>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 const query = gql`
 	query Rockets {
 		rockets {
@@ -85,7 +85,7 @@ useHead({
 </script>
 
 <style>
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
 	.hide-text {
 		display: none;
 	}
