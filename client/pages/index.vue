@@ -7,7 +7,7 @@
 					<br />
 					Welcome to
 					<br />
-					<h1>SpaceX</h1>
+					<h1 class="text-center">SpaceX</h1>
 				</h1>
 				<v-card class="text-wrapper">
 					<p class="text">
