@@ -86,8 +86,9 @@ useHead({
 	title: 'NuxtVGP - SpaceX Launches',
 	meta: [{ name: 'SpaceX', content: 'SpaceX Launches.' }],
 })
+
 const [currentPage, totalPages, favorite, paginatedLaunches, selectedSorting, filterLaunches, inputYear] =
-	useFilter()
+	useLaunches()
 </script>
 
 <style>
@@ -118,7 +119,7 @@ const [currentPage, totalPages, favorite, paginatedLaunches, selectedSorting, fi
 	text-align: justify;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
 	.hide-text {
 		display: none;
 	}
