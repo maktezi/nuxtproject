@@ -16,16 +16,8 @@
 						<div style="width: 250px">
 							<input
 								id="year"
-								v-model="selectedYear"
-								style="
-									width: 70%;
-									border-bottom: 1px solid darkgray;
-									background-color: #f8f8f8;
-									margin-left: 20px;
-									outline: none;
-									padding: 9.5px 15px;
-									font-size: small;
-								"
+								v-model="inputYear"
+								class="input-filter"
 								placeholder="Filter by Launch date:"
 								type="number"
 								@input="filterLaunches"
@@ -69,104 +61,48 @@
 							</td>
 							<td
 								class="favorite text-center"
-								@click="favorite.addToFavorites(launch.mission_name)"
+								@click="favorite.toggleFavorite(launch.mission_name)"
 							>
-								<v-icon icon="mdi-star-plus" class="icon" />
+								<v-icon
+									:icon="
+										favorite.isFavorite(launch.mission_name)
+											? 'mdi-star'
+											: 'mdi-star-plus-outline'
+									"
+									class="icon"
+								/>
 							</td>
 						</tr>
 					</tbody>
 				</v-table>
-				<v-pagination v-model="currentPage" :length="totalPages" :total-visible="5" />
+				<v-pagination v-model="currentPage" size="small" :length="totalPages" :total-visible="5" />
 			</v-card>
 		</v-lazy>
 	</v-container>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-
-const query = gql`
-	query Launches {
-		launches {
-			id
-			mission_name
-			launch_date_utc
-			launch_site {
-				site_name
-			}
-			rocket {
-				rocket_name
-			}
-			details
-		}
-	}
-`
-const { data } = useAsyncQuery<{
-	launches: {
-		id: string
-		mission_name: string
-		launch_date_utc: string
-		launch_site: {
-			site_name: string
-		}
-		rocket: {
-			rocket_name: string
-		}
-		details: string
-	}[]
-}>(query)
-const launches = data.value?.launches ?? []
-
-const selectedYear = ref<number | null>(null)
-const selectedSorting = ref<string>('Ascending')
-const currentPage = ref(1)
-const itemsPerPage = ref(10)
-const totalPages = computed(() => Math.ceil(sortedLaunches.value.length / itemsPerPage.value))
-
-const filterLaunches = () => {
-	if (selectedYear.value === null || selectedYear.value === '') {
-		return launches
-	}
-	return launches.filter((launch) => new Date(launch.launch_date_utc).getFullYear() === selectedYear.value)
-}
-
-const sortLaunches = () => {
-	const sortedLaunches = [...filteredLaunches.value]
-	sortedLaunches.sort((a, b) => {
-		const dateA = new Date(a.launch_date_utc)
-		const dateB = new Date(b.launch_date_utc)
-		if (selectedSorting.value === 'Ascending') {
-			return dateA.getTime() - dateB.getTime()
-		} else {
-			return dateB.getTime() - dateA.getTime()
-		}
-	})
-	return sortedLaunches
-}
-
-const paginatedLaunches = computed(() => {
-	const start = (currentPage.value - 1) * itemsPerPage.value
-	const end = start + itemsPerPage.value
-	return sortedLaunches.value.slice(start, end)
-})
-
-const filteredLaunches = computed(() => filterLaunches())
-const sortedLaunches = computed(() => sortLaunches())
-const favorite = favoriteStore()
-
 useHead({
 	title: 'NuxtVGP - SpaceX Launches',
-	meta: [{ name: 'SpaceX', content: 'SpaceX Webpage.' }],
-	bodyAttrs: {
-		class: 'test',
-	},
-	script: [{ innerHTML: "console.log('FrontEnd Exam')" }],
+	meta: [{ name: 'SpaceX', content: 'SpaceX Launches.' }],
 })
+const [currentPage, totalPages, favorite, paginatedLaunches, selectedSorting, filterLaunches, inputYear] =
+	useFilter()
 </script>
 
 <style>
 .favorite {
 	cursor: pointer;
+}
+
+.input-filter {
+	width: 70%;
+	border-bottom: 1px solid darkgray;
+	background-color: #f8f8f8;
+	margin-left: 20px;
+	outline: none;
+	padding: 9.5px 15px;
+	font-size: small;
 }
 
 .header {
@@ -176,9 +112,6 @@ useHead({
 .description {
 	min-width: 200px;
 	max-width: 900px;
-	/* white-space: wrap;
-	overflow: hidden;
-	text-overflow: "..."; */
 }
 
 .hide-text {

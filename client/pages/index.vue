@@ -27,10 +27,6 @@
 useHead({
 	title: 'NuxtVGP - SpaceX',
 	meta: [{ name: 'SpaceX', content: 'SpaceX Webpage.' }],
-	bodyAttrs: {
-		class: 'test',
-	},
-	script: [{ innerHTML: "console.log('FrontEnd Exam')" }],
 })
 </script>
 

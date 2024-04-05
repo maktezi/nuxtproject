@@ -77,11 +77,7 @@ const rockets = computed(() => data.value?.rockets ?? [])
 
 useHead({
 	title: 'NuxtVGP - SpaceX Rockets',
-	meta: [{ name: 'SpaceX', content: 'SpaceX Webpage.' }],
-	bodyAttrs: {
-		class: 'test',
-	},
-	script: [{ innerHTML: "console.log('FrontEnd Exam')" }],
+	meta: [{ name: 'SpaceX', content: 'SpaceX Rockets.' }],
 })
 </script>
 

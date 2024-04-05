@@ -9,7 +9,7 @@
 					Clear
 				</v-btn>
 			</div>
-			<v-data-table style="padding-left: 50px; padding-right: 50px">
+			<v-table style="padding-left: 50px; padding-right: 50px">
 				<thead>
 					<tr>
 						<th class="text-left"><h3>Rocket</h3></th>
@@ -33,8 +33,9 @@
 							<v-icon icon="mdi-star-remove" class="icon" />
 						</td>
 					</tr>
+					<br />
 				</tbody>
-			</v-data-table>
+			</v-table>
 		</v-card>
 	</v-container>
 </template>
